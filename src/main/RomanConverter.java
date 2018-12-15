@@ -15,7 +15,6 @@ public class RomanConverter extends Rules{
 		//Operation to be performed on upper cases even if user enters Roman values in lower case chars
 		for (int x = romanNumeral.length- 1; x >= 0 ; x--) {
 			Character convertToDecimal = romanNumeral[x];
-
 			switch (convertToDecimal) {
 				case 'I':
 					super.checkValidity(convertToDecimal);
@@ -53,7 +52,7 @@ public class RomanConverter extends Rules{
 					lastNumber = 1000;
 					break;
 			}
-		}
+			}
 		super.resetLiteralsCounter();
 		return decimal;
 	}

@@ -1,14 +1,10 @@
 package main;
 
 import main.Input;
+import main.Output;
 
 public class Launch{
 
-	/**
-	 * If no argument is provided then the input file present inside main.com.app.logic package is
-	 * picked up as input file by default.
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		String filePath = null;
 		if (args.length != 0)
@@ -16,6 +12,7 @@ public class Launch{
 		try{
 			Input.inputFile(filePath);
 			Input.mapTokentoIntegerValue();
+			Output.processReplyForQuestion();
 		}
 		catch(Exception e){
 			System.out.println("File Not Found");

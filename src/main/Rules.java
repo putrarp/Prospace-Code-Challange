@@ -8,11 +8,11 @@ import java.util.Map;
 
 public class Rules {
 
-	private static final Character[] NonRepeatingRoman = {'D', 'L', 'V'};
-	private static final Character[] RepeatingRoman = {'I','V','X','M'};
-	private static Map<Character,Integer> RepeatableCount = getRepeatableCount();
+	private static final Character[] NonRepeatingRomanNumerals = {'D', 'L', 'V'};
+	private static final Character[] RepeatingRomanNumerals = {'I','V','X','M'};
+	private static Map<Character,Integer> RepeatableLiteralsCount = getRepeatableLiteralsCount();
 
-	private static Map<Character,Integer> getRepeatableCount(){
+	private static Map<Character,Integer> getRepeatableLiteralsCount(){
 		Map<Character,Integer>map = new HashMap<Character,Integer>() {
 			{
 				put('I', 0);
@@ -24,9 +24,9 @@ public class Rules {
 		return map;
 	}
 
-	private static Map<Character,Integer> NonRepeatableCount = getNonRepeatableCount();
+	private static Map<Character,Integer> NonRepeatableLiteralsCount = getNonRepeatableLiteralsCount();
 
-	private static Map<Character,Integer> getNonRepeatableCount(){
+	private static Map<Character,Integer> getNonRepeatableLiteralsCount(){
 		Map<Character,Integer>map = new HashMap<Character,Integer>() {
 			{
 				put('V', 0);
@@ -64,34 +64,34 @@ public class Rules {
 			});
 
 	public static void checkValidity(Character CurrentLiteral){
-		if(checkLitereal(NonRepeatingRoman, CurrentLiteral)){
-			NonRepeatableCount.put(CurrentLiteral, NonRepeatableCount.get(CurrentLiteral) + 1);
-			if(NonRepeatableCount.containsValue(3)){
+		if(checkIfLiteralPresent(NonRepeatingRomanNumerals, CurrentLiteral)){
+			NonRepeatableLiteralsCount.put(CurrentLiteral, NonRepeatableLiteralsCount.get(CurrentLiteral) + 1);
+			if(NonRepeatableLiteralsCount.containsValue(3)){
 				System.err.println("Error : Roman Numeral V,L,D cannot be repeated.");	
 				System.exit(0);
 			}
 		}
-		else if(checkLitereal(RepeatingRoman, CurrentLiteral)){
+		else if(checkIfLiteralPresent(RepeatingRomanNumerals, CurrentLiteral)){
 			Character keyForValueContainingThree = getKeyForValueContainingThree();
 			if(keyForValueContainingThree != '\0'){
 				if (CurrentLiteral.equals(keyForValueContainingThree)){
 					System.err.println("Error : Roman Numeral "+CurrentLiteral+" cannot repeat 4 times successively");
 					System.exit(0);
 				}
-				else if(currentSmallerThanPrevious(CurrentLiteral, keyForValueContainingThree)) {
-					RepeatableCount.put(CurrentLiteral, RepeatableCount.get(CurrentLiteral) +1);
-					RepeatableCount.put(keyForValueContainingThree, 0);
+				else if(CurrentLiteralSmallerThanPrevious(CurrentLiteral, keyForValueContainingThree)) {
+					RepeatableLiteralsCount.put(CurrentLiteral, RepeatableLiteralsCount.get(CurrentLiteral) +1);
+					RepeatableLiteralsCount.put(keyForValueContainingThree, 0);
 				}
 			}
 			else{
-				RepeatableCount.put(CurrentLiteral, RepeatableCount.get(CurrentLiteral) +1);
+				RepeatableLiteralsCount.put(CurrentLiteral, RepeatableLiteralsCount.get(CurrentLiteral) +1);
 			}
 		}
 	}
 
 	private static char getKeyForValueContainingThree(){
 		char key = '\0';
-		Iterator<Map.Entry<Character,Integer>> iter = RepeatableCount.entrySet().iterator();
+		Iterator<Map.Entry<Character,Integer>> iter = RepeatableLiteralsCount.entrySet().iterator();
 		while (iter.hasNext()) {
 			Map.Entry<Character,Integer> entry = iter.next();
 			if (entry.getValue().equals(3)) {
@@ -101,7 +101,7 @@ public class Rules {
 		return key;
 	}
 
-	private static boolean currentSmallerThanPrevious(char CurrentLiteral, char keyForValueContainingThree){
+	private static boolean CurrentLiteralSmallerThanPrevious(char CurrentLiteral, char keyForValueContainingThree){
 		if (ROMAN_TO_NUMERIC_MAPPING.get(CurrentLiteral)> ROMAN_TO_NUMERIC_MAPPING.get(keyForValueContainingThree)){
 			System.err.println("Error : Should have been a lesser Roman Numeral next instead of "+CurrentLiteral);
 			System.exit(0);
@@ -120,7 +120,7 @@ public class Rules {
 			return lastDecimal + decimal;
 	}
 
-	public static boolean checkLitereal(Character[] array, Character literal){
+	public static boolean checkIfLiteralPresent(Character[] array, Character literal){
 		boolean result = false;
 		for (int i = 0; i < array.length; i++) {
 			if(array[i].equals(literal))
@@ -130,9 +130,8 @@ public class Rules {
 	}
 
 	public static void resetLiteralsCounter(){
-		RepeatableCount = getRepeatableCount();
-		NonRepeatableCount = getNonRepeatableCount();
+		RepeatableLiteralsCount = getRepeatableLiteralsCount();
+		NonRepeatableLiteralsCount = getNonRepeatableLiteralsCount();
 
 	}
 }
-
