@@ -21,7 +21,7 @@ public class Input {
 	static ArrayList<String> missingValues = new ArrayList<String>();
 	static Map<String, Float> elementValueList = new HashMap<String, Float>();
 	
-	public static void Input(String filePath) throws IOException {
+	public static void inputFile(String filePath) throws IOException {
 		BufferedReader bufferedReader = null;
 		if (filePath == null){
 			InputStream in = Input.class.getResourceAsStream("Input");
@@ -51,7 +51,7 @@ public class Input {
 		}
 	}
 	
-	public static void MapTokentoIntegerValue(){
+	public static void mapTokentoIntegerValue(){
 
 		Iterator it = romanValue.entrySet().iterator();
 		while (it.hasNext()) {
