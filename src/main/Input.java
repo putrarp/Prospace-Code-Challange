@@ -40,7 +40,7 @@ public class Input {
 	public static void processStringLine(String line){
 		String arr[] = line.split("((?<=:)|(?=:))|( )");
 
-		if (line.endsWith("?")){
+		if (line.endsWith(" ?")){
 			questionLine.put(line,"");
 		}
 		else if (arr.length == 3 && arr[1].equalsIgnoreCase("is")){
@@ -48,6 +48,9 @@ public class Input {
 		}
 		else if(line.toLowerCase().endsWith("credits")){
 			missingValues.add(line);
+		}
+		else {
+			System.err.println("Please give space before '?'(question mark)");
 		}
 	}
 	
